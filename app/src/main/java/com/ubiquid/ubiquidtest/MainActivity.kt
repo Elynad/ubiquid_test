@@ -1,6 +1,7 @@
 package com.ubiquid.ubiquidtest
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -24,6 +25,7 @@ class MainActivity : AppCompatActivity() {
     private var scannerView : ZXingScannerView? = null
 
     private var enableCountDown : Boolean = false
+    private var results : ArrayList<String> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,6 +69,7 @@ class MainActivity : AppCompatActivity() {
             override fun handleResult(rawResult: Result?) {
                 Log.d(TAG, "Should handle result !")
                 Log.e(TAG, "RawResult = $rawResult")
+                results.add(rawResult?.text!!)
                 scannerView?.stopCamera()
                 if (enableCountDown)
                     startScan()
@@ -78,7 +81,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun displayResults() {
-        // TODO
+        startActivity(ResultsActivity.getStartIntent(this, results))
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
