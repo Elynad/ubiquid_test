@@ -1,10 +1,17 @@
 <resources>
     <string name="app_name">Ubiquid Flashcode Reader</string>
 
+    <plurals name="title_results">
+        <item quantity="one">Result</item>
+        <item quantity="other">Results</item>
+    </plurals>
+
     <string name="scan">Scan</string>
     <string name="timer">15 seconds mode</string>
 
     <string name="camera_permission_explanation">We need access to your camera to use the scanner.</string>
 
     <string name="welcome_string">Start scanning by clicking on the icon in the app bar.</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

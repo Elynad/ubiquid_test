@@ -26,6 +26,7 @@ class MainActivity : AppCompatActivity() {
     private var scannerView : ZXingScannerView? = null
 
     private var enableCountDown : Boolean = false
+    private var results : ArrayList<String> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,26 +74,29 @@ class MainActivity : AppCompatActivity() {
     }
 
     /**
-     *  @param enableCountDown - Determine if we are in countDown mode or not.
-     *
      *  Starts the camera of the [ZXingScannerView] and set a [ZXingScannerView.ResultHandler] on
      *  it. When the scanner finds out a result, we stop the camera (to avoid memory overflows) and
      *  call [startScan] (itself) again.
+     *  TODO : Update doc
      */
     private fun startScan() {
         scannerView?.startCamera()
         scannerView?.setResultHandler(object : ZXingScannerView.ResultHandler {
             override fun handleResult(rawResult: Result?) {
-                Log.d(TAG, "Got a result ; enableCountDown = $enableCountDown")
+
+                // Check if we did not already scan this
+                if (!results.contains(rawResult?.text))
+                    results.add(rawResult?.text!!)
+
                 if (enableCountDown) scannerView?.resumeCameraPreview(this)
                 else displayResults()
             }
-
         })
     }
 
     private fun displayResults() {
-        // TODO
+        if (results.isNotEmpty())
+            startActivity(ResultsActivity.getStartIntent(this, results))
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
