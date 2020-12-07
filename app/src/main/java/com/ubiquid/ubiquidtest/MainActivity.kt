@@ -18,9 +18,12 @@ import me.dm7.barcodescanner.zxing.ZXingScannerView
 
 class MainActivity : AppCompatActivity() {
 
+    // Layout variables
     private var toolbar : Toolbar? = null
     private var welcomeString : TextView? = null
     private var scannerView : ZXingScannerView? = null
+
+    private var enableCountDown : Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,9 +38,10 @@ class MainActivity : AppCompatActivity() {
 
     /**
      *  Check if the app is allowed to use user's camera, and ask for permission if it does not.
-     *  If we have permission, starts the scanner.
+     *  If we have permission, hides the welcome [TextView], shows the [ZXingScannerView] and starts
+     *  the scanner.
      */
-    private fun startScan() {
+    private fun prepareScanner() {
         if (ContextCompat.checkSelfPermission(this,
                         Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,
@@ -46,22 +50,46 @@ class MainActivity : AppCompatActivity() {
             // TODO : Use a viewModel
             welcomeString?.visibility = View.GONE
             scannerView?.visibility = View.VISIBLE
-
-            scannerView?.startCamera()
-            scannerView?.setResultHandler(object : ZXingScannerView.ResultHandler {
-                override fun handleResult(rawResult: Result?) {
-                    Log.d(TAG, "Should handle result !")
-                    Log.e(TAG, "RawResult = $rawResult")
-                }
-
-            })
+            startScan()
         }
+    }
+
+    /**
+     *  @param enableCountDown - Determine if we are in countDown mode or not.
+     *
+     *  Starts the camera of the [ZXingScannerView] and set a [ZXingScannerView.ResultHandler] on
+     *  it. When the scanner finds out a result, we stop the camera (to avoid memory overflows) and
+     *  call [startScan] again.
+     */
+    private fun startScan() {
+        scannerView?.startCamera()
+        scannerView?.setResultHandler(object : ZXingScannerView.ResultHandler {
+            override fun handleResult(rawResult: Result?) {
+                Log.d(TAG, "Should handle result !")
+                Log.e(TAG, "RawResult = $rawResult")
+                scannerView?.stopCamera()
+                if (enableCountDown)
+                    startScan()
+                else
+                    displayResults()
+            }
+
+        })
+    }
+
+    private fun displayResults() {
+        // TODO
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_scan -> {
-                startScan()
+                prepareScanner()
+                true
+            }
+            R.id.action_countdown -> {
+                enableCountDown = true
+                prepareScanner()
                 true
             }
             else -> {
@@ -80,7 +108,7 @@ class MainActivity : AppCompatActivity() {
 
         if (requestCode == PERMISSION_REQUEST_CODE) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                startScan()
+                prepareScanner()
             else
                 Toast.makeText(this, getString(R.string.camera_permission_explanation),
                         Toast.LENGTH_LONG).show()

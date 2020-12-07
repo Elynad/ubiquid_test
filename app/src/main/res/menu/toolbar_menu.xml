@@ -8,4 +8,9 @@
         android:title="@string/scan"
         app:showAsAction="ifRoom" />
 
+    <item
+        android:id="@+id/action_countdown"
+        android:icon="@drawable/timer"
+        android:title="@string/timer"
+        app:showAsAction="ifRoom" />
 </menu>
