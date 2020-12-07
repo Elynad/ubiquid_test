@@ -1,7 +1,6 @@
 package com.ubiquid.ubiquidtest
 
 import android.Manifest
-import android.content.Intent
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -57,8 +56,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     /**
-     *  @param enableCountDown - Determine if we are in countDown mode or not.
-     *
      *  Starts the camera of the [ZXingScannerView] and set a [ZXingScannerView.ResultHandler] on
      *  it. When the scanner finds out a result, we stop the camera (to avoid memory overflows) and
      *  call [startScan] again.
@@ -81,7 +78,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun displayResults() {
-        startActivity(ResultsActivity.getStartIntent(this, results))
+        if (results.isNotEmpty())
+            startActivity(ResultsActivity.getStartIntent(this, results))
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

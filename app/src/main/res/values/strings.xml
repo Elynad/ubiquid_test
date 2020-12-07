@@ -1,6 +1,11 @@
 <resources>
     <string name="app_name">Ubiquid Flashcode Reader</string>
 
+    <plurals name="title_results">
+        <item quantity="one">Result</item>
+        <item quantity="other">Results</item>
+    </plurals>
+
     <string name="scan">Scan</string>
     <string name="timer">15 seconds mode</string>
 
