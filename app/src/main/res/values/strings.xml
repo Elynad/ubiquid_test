@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Ubiquid Flashcode Reader</string>
+
+    <string name="scan">Scan</string>
+    <string name="camera_permission_explanation">We need access to your camera to use the scanner.</string>
+    <string name="welcome_string">Start scanning by clicking on the icon in the app bar.</string>
 </resources>
