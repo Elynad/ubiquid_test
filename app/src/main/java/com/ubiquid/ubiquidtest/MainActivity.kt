@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -15,6 +16,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.zxing.Result
 import me.dm7.barcodescanner.zxing.ZXingScannerView
+import java.util.function.LongToDoubleFunction
 
 class MainActivity : AppCompatActivity() {
 
@@ -50,7 +52,23 @@ class MainActivity : AppCompatActivity() {
             // TODO : Use a viewModel
             welcomeString?.visibility = View.GONE
             scannerView?.visibility = View.VISIBLE
-            startScan()
+
+            if (enableCountDown) {
+                val timer = object : CountDownTimer(COUNT_DOWN_MODE_DURATION, 1000) {
+                    override fun onFinish() {
+                        Log.d(TAG, "COUNT DOWN FINISHED !")
+                        scannerView?.stopCamera()
+                        displayResults() // TODO : Display error toast if no results were found
+                        enableCountDown = false
+                    }
+
+                    override fun onTick(p0: Long) {}
+
+                }
+                startScan()
+                timer.start()
+            } else
+                startScan()
         }
     }
 
@@ -59,19 +77,15 @@ class MainActivity : AppCompatActivity() {
      *
      *  Starts the camera of the [ZXingScannerView] and set a [ZXingScannerView.ResultHandler] on
      *  it. When the scanner finds out a result, we stop the camera (to avoid memory overflows) and
-     *  call [startScan] again.
+     *  call [startScan] (itself) again.
      */
     private fun startScan() {
         scannerView?.startCamera()
         scannerView?.setResultHandler(object : ZXingScannerView.ResultHandler {
             override fun handleResult(rawResult: Result?) {
-                Log.d(TAG, "Should handle result !")
-                Log.e(TAG, "RawResult = $rawResult")
-                scannerView?.stopCamera()
-                if (enableCountDown)
-                    startScan()
-                else
-                    displayResults()
+                Log.d(TAG, "Got a result ; enableCountDown = $enableCountDown")
+                if (enableCountDown) scannerView?.resumeCameraPreview(this)
+                else displayResults()
             }
 
         })
@@ -117,6 +131,8 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         private const val TAG = "MainActivity"
+
+        private const val COUNT_DOWN_MODE_DURATION = 15000L
 
         private const val PERMISSION_REQUEST_CODE = 5
     }
