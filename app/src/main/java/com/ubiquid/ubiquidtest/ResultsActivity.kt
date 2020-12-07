@@ -4,10 +4,10 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 class ResultsActivity : AppCompatActivity() {
@@ -15,7 +15,9 @@ class ResultsActivity : AppCompatActivity() {
     // Layout variables
     private var toolbar : Toolbar? = null
     private var singleResult : TextView? = null
-    private var multipleResults : RecyclerView? = null
+    private var multipleResultsRv : RecyclerView? = null
+
+    private var resultsAdapter = ResultsAdapter()
 
     private var results : ArrayList<String>? = null
 
@@ -28,6 +30,7 @@ class ResultsActivity : AppCompatActivity() {
         setupToolbar()
 
         singleResult = findViewById(R.id.single_result)
+        multipleResultsRv = findViewById(R.id.multiple_result_rv)
 
         if (results != null && results!!.size > 1) displayMultipleResults()
         else displaySingleResult()
@@ -48,7 +51,8 @@ class ResultsActivity : AppCompatActivity() {
      *  [TextView].
      */
     private fun displaySingleResult() {
-        multipleResults?.visibility = View.GONE
+        // TODO : Use a ViewModel
+        multipleResultsRv?.visibility = View.GONE
 
         singleResult?.text = results!![0]
         singleResult?.visibility = View.VISIBLE
@@ -58,7 +62,13 @@ class ResultsActivity : AppCompatActivity() {
      *  Used when [results] contains at least 2 entries. Will display them in a [RecyclerView].
      */
     private fun displayMultipleResults() {
+        // TODO : Use a ViewModel
+        singleResult?.visibility = View.GONE
 
+        multipleResultsRv?.layoutManager = LinearLayoutManager(this)
+        multipleResultsRv?.adapter = resultsAdapter
+        multipleResultsRv?.post { resultsAdapter.addAll(results!!) }
+        multipleResultsRv?.visibility = View.VISIBLE
     }
 
     companion object {

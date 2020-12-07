@@ -77,12 +77,17 @@ class MainActivity : AppCompatActivity() {
      *  Starts the camera of the [ZXingScannerView] and set a [ZXingScannerView.ResultHandler] on
      *  it. When the scanner finds out a result, we stop the camera (to avoid memory overflows) and
      *  call [startScan] (itself) again.
+     *  TODO : Update doc
      */
     private fun startScan() {
         scannerView?.startCamera()
         scannerView?.setResultHandler(object : ZXingScannerView.ResultHandler {
             override fun handleResult(rawResult: Result?) {
-                results.add(rawResult?.text!!)
+
+                // Check if we did not already scan this
+                if (!results.contains(rawResult?.text))
+                    results.add(rawResult?.text!!)
+
                 if (enableCountDown) scannerView?.resumeCameraPreview(this)
                 else displayResults()
             }
