@@ -7,7 +7,7 @@
 :heavy_check_mark: Quit scanner button  
 :heavy_check_mark: Countdown mode  
 :heavy_check_mark: Display result page for multiple code detection (countdown mode)  
-:o: Display detection efficiency on the result page in countdown mode  
+:heavy_check_mark: Display detection efficiency on the result page in countdown mode  
 :o: Use Ubiquid design (logo & theme color)  
 
 
