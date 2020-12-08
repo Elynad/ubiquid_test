@@ -10,6 +10,13 @@
 :heavy_check_mark: Display detection efficiency on the result page in countdown mode  
 :o: Use Ubiquid design (logo & theme color)  
 
+## Frameworks :
+
+Made with :
+- :heart: Love
+- :grin: Passion
+- ZXing barcode scanner
+- DataBinding
 
 ## Credits :
 Icons come from FlatIcon.
