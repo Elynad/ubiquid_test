@@ -2,6 +2,10 @@ package com.ubiquid.ubiquidtest
 
 import android.content.Context
 
+/**
+ *  This class is used to get strings from a place without context (i.e. like a ViewModel).
+ *  An instance is created with a [Context], then we use its function [getString] when needed.
+ */
 class ResourceProvider {
 
     private var mContext: Context? = null

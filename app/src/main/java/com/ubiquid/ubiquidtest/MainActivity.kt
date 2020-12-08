@@ -10,7 +10,6 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -76,7 +75,7 @@ class MainActivity : AppCompatActivity() {
                 countDownTimer = object : CountDownTimer(COUNT_DOWN_MODE_DURATION, 1000) {
                     override fun onFinish() {
                         scannerView?.stopCamera()
-                        displayResults() // TODO : Display error toast if no results were found
+                        displayResults()
                         enableCountDown = false
                     }
 
@@ -94,9 +93,11 @@ class MainActivity : AppCompatActivity() {
 
     /**
      *  Starts the camera of the [ZXingScannerView] and set a [ZXingScannerView.ResultHandler] on
-     *  it. When the scanner finds out a result, we stop the camera (to avoid memory overflows) and
-     *  call [startScan] (itself) again.
-     *  TODO : Update doc
+     *  it. When the scanner finds out a result, we check if it is not already inside [results], and
+     *  add it if it does not.
+     *  Then, if the CountDown mode is enable (if [enableCountDown] is true), we resume camera
+     *  preview in order to scan more codes.
+     *  If this mode is disabled, displays results by calling [displayResults].
      */
     private fun startScan() {
         scannerView?.startCamera()
@@ -118,12 +119,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     /**
-     *  Checks [results]. If it is empty, TODO
+     *  Checks [results].
+     *  If it is empty, calls [closeScanner] and displays an error [Toast] to the user.
      *  If [results] is not empty, starts [ResultsActivity] with it as parameter.
      */
     private fun displayResults() {
         if (results.isNotEmpty())
             startActivity(ResultsActivity.getStartIntent(this, results))
+        else {
+            closeScanner()
+            Toast.makeText(this, getString(R.string.nothing_found), Toast.LENGTH_LONG).show()
+        }
     }
 
     /**

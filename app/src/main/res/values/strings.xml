@@ -16,5 +16,7 @@
 
     <string name="camera_permission_explanation">We need access to your camera to use the scanner.</string>
 
+    <string name="nothing_found">Nothing was detected.</string>
+
     <string name="welcome_string">Start scanning by clicking on the icon in the app bar.</string>
 </resources>
