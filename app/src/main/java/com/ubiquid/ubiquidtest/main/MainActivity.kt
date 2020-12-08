@@ -2,13 +2,13 @@ package com.ubiquid.ubiquidtest.main
 
 import android.Manifest
 import android.content.pm.PackageManager
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -16,8 +16,8 @@ import androidx.databinding.DataBindingUtil
 import com.google.zxing.Result
 import com.ubiquid.ubiquidtest.R
 import com.ubiquid.ubiquidtest.ResourceProvider
-import com.ubiquid.ubiquidtest.results.ResultsActivity
 import com.ubiquid.ubiquidtest.databinding.ActivityMainBinding
+import com.ubiquid.ubiquidtest.results.ResultsActivity
 import me.dm7.barcodescanner.zxing.ZXingScannerView
 
 class MainActivity : AppCompatActivity() {
@@ -87,10 +87,9 @@ class MainActivity : AppCompatActivity() {
                     }
 
                 }
-                startScan()
                 countDownTimer?.start()
-            } else
-                startScan()
+            }
+            startScan()
         }
     }
 
@@ -189,20 +188,22 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     *  When pausing the Activity, we set back welcome layout and original toolbar.
+     *  We cannot do this in the onResume, as we go there after asking for permissions (it would
+     *  make the user need to click twice on the button to use scanner).
+     */
     override fun onPause() {
         scannerView?.stopCamera()
         countDownTimer?.cancel()
-        super.onPause()
-    }
-
-    override fun onResume() {
-        super.onResume()
         toolbar?.menu?.clear()
         toolbar?.inflateMenu(R.menu.toolbar_menu)
         viewModel?.setWelcome()
+        super.onPause()
     }
 
     companion object {
+        @Suppress("unused") // Used for debug logs
         private const val TAG = "MainActivity"
 
         private const val COUNT_DOWN_MODE_DURATION = 15000L

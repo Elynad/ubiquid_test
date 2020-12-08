@@ -17,6 +17,7 @@ Made with :
 - :grin: Passion
 - ZXing barcode scanner
 - DataBinding
+- MVVM architecture (Model View ViewModel)
 
 ## Credits :
 Icons come from FlatIcon.

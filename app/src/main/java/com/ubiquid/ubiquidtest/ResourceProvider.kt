@@ -21,9 +21,6 @@ class ResourceProvider {
     }
 
     fun getString(resId: Int, vararg value: Any): String? {
-        value.forEach {
-            Log.d("ResourceProvider", "ITEM ${it}")
-        }
         return mContext!!.getString(resId, value)
     }
 }

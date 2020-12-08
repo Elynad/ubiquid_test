@@ -11,7 +11,7 @@ import com.ubiquid.ubiquidtest.R
 
 class ResultsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    var items = ArrayList<String>()
+    private var items = ArrayList<String>()
 
     fun addAll(results : ArrayList<String>) {
         items = results
