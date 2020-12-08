@@ -203,6 +203,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object {
+        @Suppress("unused") // Used for debug logs
         private const val TAG = "MainActivity"
 
         private const val COUNT_DOWN_MODE_DURATION = 15000L
