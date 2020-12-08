@@ -7,7 +7,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.ubiquid.ubiquidtest.MainViewModel"
+            type="com.ubiquid.ubiquidtest.main.MainViewModel"
             />
     </data>
 
@@ -15,7 +15,7 @@
         android:id="@+id/root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".MainActivity">
+        tools:context=".main.MainActivity">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"

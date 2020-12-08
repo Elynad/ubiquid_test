@@ -1,10 +1,11 @@
-package com.ubiquid.ubiquidtest
+package com.ubiquid.ubiquidtest.main
 
-import android.util.Log
 import android.view.View
 import androidx.databinding.ObservableField
 import androidx.databinding.ObservableInt
 import androidx.lifecycle.ViewModel
+import com.ubiquid.ubiquidtest.R
+import com.ubiquid.ubiquidtest.ResourceProvider
 
 /**
  *  ViewModel for the MainActivity.

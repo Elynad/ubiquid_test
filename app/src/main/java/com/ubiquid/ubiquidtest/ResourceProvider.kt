@@ -1,6 +1,7 @@
 package com.ubiquid.ubiquidtest
 
 import android.content.Context
+import android.util.Log
 
 /**
  *  This class is used to get strings from a place without context (i.e. like a ViewModel).
@@ -8,7 +9,7 @@ import android.content.Context
  */
 class ResourceProvider {
 
-    private var mContext: Context? = null
+    var mContext: Context? = null
 
     fun resourceProvider(mContext: Context?) : ResourceProvider {
         this.mContext = mContext
@@ -19,7 +20,10 @@ class ResourceProvider {
         return mContext!!.getString(resId)
     }
 
-    fun getString(resId: Int, value: String?): String? {
+    fun getString(resId: Int, vararg value: Any): String? {
+        value.forEach {
+            Log.d("ResourceProvider", "ITEM ${it}")
+        }
         return mContext!!.getString(resId, value)
     }
 }
