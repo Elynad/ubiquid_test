@@ -14,7 +14,11 @@ import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.ViewModelProvider
 import com.google.zxing.Result
+import com.ubiquid.ubiquidtest.databinding.ActivityMainBinding
 import me.dm7.barcodescanner.zxing.ZXingScannerView
 import java.util.function.LongToDoubleFunction
 
@@ -25,18 +29,30 @@ class MainActivity : AppCompatActivity() {
     private var welcomeString : TextView? = null
     private var scannerView : ZXingScannerView? = null
 
+    // Helper classes
+    private var viewModel : MainViewModel? = null
+    private var resourceProvider : ResourceProvider? = null
+
     private var enableCountDown : Boolean = false
     private var results : ArrayList<String> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+
+        if (resourceProvider == null)
+            resourceProvider = ResourceProvider().resourceProvider(this)
+        viewModel = MainViewModel(resourceProvider!!)
+
+        val binding = DataBindingUtil.setContentView<ActivityMainBinding>(this,
+            R.layout.activity_main)
+        binding.viewModel = viewModel
 
         toolbar = findViewById(R.id.toolbar)
         welcomeString = findViewById(R.id.welcome_string)
         scannerView = findViewById(R.id.scanner_view)
 
         setSupportActionBar(toolbar)
+
     }
 
     /**
@@ -50,11 +66,10 @@ class MainActivity : AppCompatActivity() {
             ActivityCompat.requestPermissions(this,
                     arrayOf(Manifest.permission.CAMERA), PERMISSION_REQUEST_CODE)
         } else {
-            // TODO : Use a viewModel
-            welcomeString?.visibility = View.GONE
-            scannerView?.visibility = View.VISIBLE
+            viewModel?.setScanner()
 
             if (enableCountDown) {
+                viewModel?.setCountDownScanner(COUNT_DOWN_MODE_DURATION)
                 val timer = object : CountDownTimer(COUNT_DOWN_MODE_DURATION, 1000) {
                     override fun onFinish() {
                         Log.d(TAG, "COUNT DOWN FINISHED !")
@@ -63,7 +78,9 @@ class MainActivity : AppCompatActivity() {
                         enableCountDown = false
                     }
 
-                    override fun onTick(p0: Long) {}
+                    override fun onTick(millisRemaining: Long) {
+                        viewModel?.updateTimeRemaining(millisRemaining / 1000)
+                    }
 
                 }
                 startScan()
@@ -84,9 +101,13 @@ class MainActivity : AppCompatActivity() {
         scannerView?.setResultHandler(object : ZXingScannerView.ResultHandler {
             override fun handleResult(rawResult: Result?) {
 
+                viewModel?.increaseTotalScanned()
+
                 // Check if we did not already scan this
-                if (!results.contains(rawResult?.text))
+                if (!results.contains(rawResult?.text)) {
                     results.add(rawResult?.text!!)
+                    viewModel?.increaseUniqueScanned()
+                }
 
                 if (enableCountDown) scannerView?.resumeCameraPreview(this)
                 else displayResults()
@@ -131,6 +152,16 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, getString(R.string.camera_permission_explanation),
                         Toast.LENGTH_LONG).show()
         }
+    }
+
+    override fun onPause() {
+        scannerView?.stopCamera()
+        super.onPause()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel?.setWelcome()
     }
 
     companion object {
