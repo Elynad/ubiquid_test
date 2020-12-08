@@ -1,11 +1,10 @@
-package com.ubiquid.ubiquidtest
+package com.ubiquid.ubiquidtest.main
 
 import android.Manifest
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
@@ -15,6 +14,9 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import com.google.zxing.Result
+import com.ubiquid.ubiquidtest.R
+import com.ubiquid.ubiquidtest.ResourceProvider
+import com.ubiquid.ubiquidtest.results.ResultsActivity
 import com.ubiquid.ubiquidtest.databinding.ActivityMainBinding
 import me.dm7.barcodescanner.zxing.ZXingScannerView
 
@@ -32,6 +34,7 @@ class MainActivity : AppCompatActivity() {
     private var enableCountDown : Boolean = false
     private var countDownTimer : CountDownTimer? = null
     private var results : ArrayList<String> = ArrayList()
+    private var totalScanned : Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,7 +46,7 @@ class MainActivity : AppCompatActivity() {
 
         // Inflate view
         val binding = DataBindingUtil.setContentView<ActivityMainBinding>(this,
-            R.layout.activity_main)
+                R.layout.activity_main)
         binding.viewModel = viewModel
 
         // Init layout variables
@@ -105,6 +108,7 @@ class MainActivity : AppCompatActivity() {
             override fun handleResult(rawResult: Result?) {
 
                 viewModel?.increaseTotalScanned()
+                totalScanned++
 
                 // Check if we did not already scan this
                 if (!results.contains(rawResult?.text)) {
@@ -125,7 +129,8 @@ class MainActivity : AppCompatActivity() {
      */
     private fun displayResults() {
         if (results.isNotEmpty())
-            startActivity(ResultsActivity.getStartIntent(this, results))
+            startActivity(ResultsActivity
+                .getStartIntent(this, results, COUNT_DOWN_MODE_DURATION, totalScanned))
         else {
             closeScanner()
             Toast.makeText(this, getString(R.string.nothing_found), Toast.LENGTH_LONG).show()
@@ -171,7 +176,8 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>,
+                                            grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
         if (requestCode == PERMISSION_REQUEST_CODE) {
