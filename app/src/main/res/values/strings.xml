@@ -14,6 +14,9 @@
     <string name="total_scanned">Total scanned :</string>
     <string name="unique_scanned">Unique scanned :</string>
 
+    <string name="scan_report">Scanned %1$d codes (%2$d unique) in %3$d seconds.</string>
+    <string name="scan_note">Note : %1$.2f code scanned per second.</string>
+
     <string name="camera_permission_explanation">We need access to your camera to use the scanner.</string>
 
     <string name="nothing_found">Nothing was detected.</string>

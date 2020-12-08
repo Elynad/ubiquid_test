@@ -34,6 +34,7 @@ class MainActivity : AppCompatActivity() {
     private var enableCountDown : Boolean = false
     private var countDownTimer : CountDownTimer? = null
     private var results : ArrayList<String> = ArrayList()
+    private var totalScanned : Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -107,6 +108,7 @@ class MainActivity : AppCompatActivity() {
             override fun handleResult(rawResult: Result?) {
 
                 viewModel?.increaseTotalScanned()
+                totalScanned++
 
                 // Check if we did not already scan this
                 if (!results.contains(rawResult?.text)) {
@@ -127,7 +129,8 @@ class MainActivity : AppCompatActivity() {
      */
     private fun displayResults() {
         if (results.isNotEmpty())
-            startActivity(ResultsActivity.getStartIntent(this, results))
+            startActivity(ResultsActivity
+                .getStartIntent(this, results, COUNT_DOWN_MODE_DURATION, totalScanned))
         else {
             closeScanner()
             Toast.makeText(this, getString(R.string.nothing_found), Toast.LENGTH_LONG).show()
@@ -173,7 +176,8 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>,
+                                            grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
         if (requestCode == PERMISSION_REQUEST_CODE) {
