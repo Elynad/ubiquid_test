@@ -197,6 +197,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        toolbar?.menu?.clear()
+        toolbar?.inflateMenu(R.menu.toolbar_menu)
         viewModel?.setWelcome()
     }
 
