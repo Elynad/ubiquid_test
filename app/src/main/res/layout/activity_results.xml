@@ -5,7 +5,7 @@
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ResultsActivity">
+    tools:context=".results.ResultsActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/results_toolbar"
@@ -34,12 +34,28 @@
         app:layout_constraintTop_toBottomOf="@+id/results_toolbar"
         tools:text="@tools:sample/lorem/random" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/multiple_result_rv"
+    <LinearLayout
+        android:id="@+id/multiple_result_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/results_toolbar" />
+        app:layout_constraintTop_toBottomOf="@+id/results_toolbar">
+
+        <TextView
+            android:id="@+id/scan_report"
+            android:layout_margin="25dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="TextView" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/multiple_result_rv"
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+
+        </androidx.recyclerview.widget.RecyclerView>
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

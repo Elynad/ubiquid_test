@@ -1,4 +1,4 @@
-package com.ubiquid.ubiquidtest
+package com.ubiquid.ubiquidtest.results
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.ubiquid.ubiquidtest.R
 
 class ResultsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 

@@ -1,11 +1,10 @@
-package com.ubiquid.ubiquidtest
+package com.ubiquid.ubiquidtest.main
 
 import android.Manifest
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
@@ -15,6 +14,9 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import com.google.zxing.Result
+import com.ubiquid.ubiquidtest.R
+import com.ubiquid.ubiquidtest.ResourceProvider
+import com.ubiquid.ubiquidtest.results.ResultsActivity
 import com.ubiquid.ubiquidtest.databinding.ActivityMainBinding
 import me.dm7.barcodescanner.zxing.ZXingScannerView
 
@@ -43,7 +45,7 @@ class MainActivity : AppCompatActivity() {
 
         // Inflate view
         val binding = DataBindingUtil.setContentView<ActivityMainBinding>(this,
-            R.layout.activity_main)
+                R.layout.activity_main)
         binding.viewModel = viewModel
 
         // Init layout variables
