@@ -4,6 +4,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 
 class ResultsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -25,13 +27,22 @@ class ResultsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun getItemCount(): Int = items.size
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        (holder as? ResultItemViewHolder)?.setData(items[position])
+        (holder as? ResultItemViewHolder)?.setData(items[position], (position % 2 != 0))
     }
 
-    inner class ResultItemViewHolder(val view : View) : RecyclerView.ViewHolder(view.rootView) {
+    inner class ResultItemViewHolder(private val view : View) : RecyclerView.ViewHolder(view.rootView) {
 
-        fun setData(result : String) {
+        fun setData(result : String, isOdd : Boolean) {
             view.findViewById<TextView>(R.id.content).text = result
+
+            if (isOdd)
+                view.findViewById<CardView>(R.id.background).setCardBackgroundColor(
+                        ContextCompat.getColor(view.context, R.color.primary_background)
+                )
+            else
+                view.findViewById<CardView>(R.id.background).setCardBackgroundColor(
+                        ContextCompat.getColor(view.context, R.color.secondary_background)
+                )
         }
 
     }
