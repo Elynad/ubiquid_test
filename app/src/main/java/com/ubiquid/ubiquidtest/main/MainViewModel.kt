@@ -31,8 +31,8 @@ class MainViewModel() : ViewModel() {
     val totalScannedString = ObservableField<String>("")
     val uniqueScannedString = ObservableField<String>("")
 
-    var totalScanned = 0
-    var uniqueScanned = 0
+    private var totalScanned = 0
+    private var uniqueScanned = 0
 
     fun setScanner() {
         welcomeStringVisibility.set(View.GONE)

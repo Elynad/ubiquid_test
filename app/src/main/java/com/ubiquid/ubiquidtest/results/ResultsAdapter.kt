@@ -11,7 +11,7 @@ import com.ubiquid.ubiquidtest.R
 
 class ResultsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    var items = ArrayList<String>()
+    private var items = ArrayList<String>()
 
     fun addAll(results : ArrayList<String>) {
         items = results
@@ -38,11 +38,11 @@ class ResultsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
             if (isOdd)
                 view.findViewById<CardView>(R.id.background).setCardBackgroundColor(
-                        ContextCompat.getColor(view.context, R.color.primary_background)
+                        ContextCompat.getColor(view.context, R.color.primary_background_dark)
                 )
             else
                 view.findViewById<CardView>(R.id.background).setCardBackgroundColor(
-                        ContextCompat.getColor(view.context, R.color.secondary_background)
+                        ContextCompat.getColor(view.context, R.color.secondary_background_light)
                 )
         }
 

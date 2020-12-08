@@ -1,6 +1,5 @@
 package com.ubiquid.ubiquidtest.results
 
-import android.util.Log
 import android.view.View
 import androidx.databinding.ObservableField
 import androidx.databinding.ObservableInt

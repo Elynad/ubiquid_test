@@ -2,20 +2,16 @@ package com.ubiquid.ubiquidtest.results
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.View
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ubiquid.ubiquidtest.R
 import com.ubiquid.ubiquidtest.ResourceProvider
-import com.ubiquid.ubiquidtest.databinding.ActivityMainBinding
 import com.ubiquid.ubiquidtest.databinding.ActivityResultsBinding
-import com.ubiquid.ubiquidtest.main.MainViewModel
 
 class ResultsActivity : AppCompatActivity() {
 
@@ -104,6 +100,7 @@ class ResultsActivity : AppCompatActivity() {
     }
 
     companion object {
+        @Suppress("unused") // Used for debug logs
         private const val TAG = "ResultsActivity"
 
         private const val ARG_RESULTS = "results"
