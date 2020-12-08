@@ -40,6 +40,7 @@ class MainViewModel() : ViewModel() {
 
     fun setWelcome() {
         welcomeStringVisibility.set(View.VISIBLE)
+        scanStateLayoutVisibility.set(View.GONE)
         scannerViewVisibility.set(View.GONE)
     }
 

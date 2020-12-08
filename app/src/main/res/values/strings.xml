@@ -8,6 +8,7 @@
 
     <string name="scan">Scan</string>
     <string name="timer">15 seconds mode</string>
+    <string name="close">Close</string>
 
     <string name="time_remaining">Time remaining :</string>
     <string name="total_scanned">Total scanned :</string>
